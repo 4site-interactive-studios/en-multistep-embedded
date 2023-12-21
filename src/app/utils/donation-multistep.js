@@ -101,19 +101,29 @@ export class DonationMultistep {
 
   // Receive a message from the child iframe
   receiveMessage(event) {
-    // console.log("DonationMultistep: receiveMessage: event: ", event.data);
     const message = event.data;
 
-    if (message && "frameHeight" in message) {
-      this.iframe.style.height = message.frameHeight + "px";
-      if ("scroll" in message && !this.isInViewport(this.iframe)) {
-        // Scroll to the top of the iframe smoothly
-        this.iframe.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
+    // Check if the message is an object
+    if (typeof message === "object" && message !== null) {
+      // Process messages with 'frameHeight'
+      if ("frameHeight" in message) {
+        this.iframe.style.height = message.frameHeight + "px";
+        if ("scroll" in message && !this.isInViewport(this.iframe)) {
+          // Scroll to the top of the iframe smoothly
+          this.iframe.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      } else {
+        // Log unexpected object messages
+        console.log("Received an unexpected message format:", message);
+        console.log("DonationMultistep: receiveMessage: event: ", event.data);
       }
-      return;
+    } else {
+      // Log non-object messages
+      console.log("Received a non-object message:", message);
+      console.log("DonationMultistep: receiveMessage: event: ", event.data);
     }
 
     switch (message.key) {
