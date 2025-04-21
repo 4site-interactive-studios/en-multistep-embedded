@@ -16,7 +16,7 @@ export class DonationMultistep {
       height: "",
       border_radius: "0",
       loading_color: "#E5E6E8",
-      bounce_color: "#ee3524",
+      bounce_color: "#16233f",
       append_url_params: "false",
     };
     this.donationinfo = {};
